@@ -1,5 +1,8 @@
 *.py[cod]
 
+# jetbrains IDE settings
+.idea
+
 # C extensions
 *.so
 
