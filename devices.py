@@ -4,7 +4,7 @@ import datetime
 
 __author__ = 'MMerrifield'
 
-class iBHTX(object):
+class iBTHX(object):
     HOST = '192.168.1.200'  # default ip address for iBTHX, per the manual
     PORT = 2000  # default telnet port for iBTHX, per the manual
 
