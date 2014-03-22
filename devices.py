@@ -64,7 +64,7 @@ class iBHTX(object):
         """
         Constantly listens over the telnet port. Prints a stream of timestamped data.
         """
-         while True:
+        while True:
             line = self.get_line()
             time = datetime.datetime.now()
             print time, line
