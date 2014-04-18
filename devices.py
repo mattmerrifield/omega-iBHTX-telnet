@@ -1,18 +1,19 @@
 import telnetlib
+import logging
 import re
 import datetime
 
 __author__ = 'MMerrifield'
 
 class iBTHX(object):
-    HOST = '192.168.1.200'  # default ip address for iBTHX, per the manual
-    PORT = 2000  # default telnet port for iBTHX, per the manual
+
 
     def __init__(self, hostname=None, port=None):
-        self.HOST = self.HOST or hostname
-        self.PORT = self.PORT or port
+        self.host = hostname or 'http://192.168.102.49'
+        self.port = port or 2000
 
-        self.telnet = telnetlib.Telnet(hostname, port)
+        self.telnet = telnetlib.Telnet()
+        self.telnet.open(hostname, port)
 
         self.column_headers = ['Ambient Temperature (C)', 'Ambient Pressure (mba)', 'Ambient Humidity (%RH)', 'Dew Point (F)']
         self.packet_headers = ['T', 'P', 'H', 'D']
@@ -43,7 +44,7 @@ class iBTHX(object):
         # Return a tuple of (header)(data)(units)
         return (type, data, units)
 
-    def get_line(self):
+    def read_line(self):
         """
         Returns a dictionary of all the data expected from the iBHTX. Gets one "set" of data
         """
@@ -65,6 +66,21 @@ class iBTHX(object):
         Constantly listens over the telnet port. Prints a stream of timestamped data.
         """
         while True:
-            line = self.get_line()
+            line = self.read_line()
             time = datetime.datetime.now()
             print time, line
+
+
+class DataLogger(object):
+    def __init__(self, device, log_file=None):
+        self.device = device
+        self.logfile = log_file
+
+
+
+
+
+if __name__ == '__main__':
+    ibthx = iBTHX()
+    logger = DataLogger(ibthx)
+    ibthx.listen()
