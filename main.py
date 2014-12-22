@@ -1,6 +1,5 @@
 from devices import iBTHX
 import logging
-from datetime import datetime
 from logging import handlers
 
 __author__ = 'MMerrifield'

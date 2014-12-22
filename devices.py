@@ -1,7 +1,5 @@
 import telnetlib
-import logging
 import re
-import datetime
 from collections import OrderedDict
 __author__ = 'MMerrifield'
 
@@ -16,8 +14,8 @@ class Column(str):
 
 class iBTHX(object):
 
-    def __init__(self, hostname=None, port=None):
-        self.host = hostname or '192.168.102.49'
+    def __init__(self, hostname, port=None):
+        self.host = hostname
         self.port = port or 2000
 
         self.telnet = telnetlib.Telnet(self.host, self.port)
@@ -68,14 +66,3 @@ class iBTHX(object):
         returndata = OrderedDict([(column, data[abbr]) for abbr, column in self.columns.iteritems()])
         return returndata
 
-
-if __name__ == '__main__':
-    ibthx = iBTHX()
-    log = logging.getLogger(__name__)
-    logging.basicConfig(format='%(message)s', level=logging.INFO)
-
-    while True:
-        line = ibthx.read_line()
-        time = datetime.datetime.now().isoformat()
-        msg = "{{{}: {}}}".format(str(time), line)
-        log.info(msg)
